@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import List from "./components/List";
+import Search from "./components/Search";
+import {useState} from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+const list = [
+  {
+    title: "React",
+    url: "https://reactjs.org/",
+    author: "Jordan Walke",
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title:"Saga",
+    url:"https://reactjs.org/",
+    author:"Jordan walke",
+    num_comments:3,
+    points:4,
+    objectID:1,
+  },
+  {
+    title: "Redux",
+    url: "https://redux.js.org/",
+    author: "Dan Abramov, Andrew Clark",
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+];
+
+
+function App(){
+  const [searchTerm,setSearchTerm]= useState<any>("");
+
+  const handleSearchChange =(e:any) => {
+    setSearchTerm(e.target.value);
+    
+    
+  };
+
+  const filteredList:any =list.filter((item: any)  => 
+   item.title.includes(searchTerm) 
   );
-}
 
-export default App;
+  return(
+    <div className="container">
+    <h1>Hacker Stories</h1> 
+    <Search value={searchTerm} onChange={handleSearchChange}/>   
+<List stories={filteredList} />
+    </div>
+    );
+  }   
+
+  export default App;
