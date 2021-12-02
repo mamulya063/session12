@@ -1,7 +1,8 @@
 import "./App.css";
 import List from "./components/List";
-import Search from "./components/Search";
-import {useState} from "react";
+import InputWithLable from "./components/InputWithLable";
+
+import useSemiPersistentState from "./hooks/useSemiPersistentState";
 
 
 const list = [
@@ -18,7 +19,7 @@ const list = [
     url:"https://reactjs.org/",
     author:"Jordan walke",
     num_comments:3,
-    points:4,
+    points:5,
     objectID:1,
   },
   {
@@ -27,31 +28,44 @@ const list = [
     author: "Dan Abramov, Andrew Clark",
     num_comments: 2,
     points: 5,
-    objectID: 1,
+    objectID: 2,
   },
 ];
 
 
 function App(){
-  const [searchTerm,setSearchTerm]= useState<any>("");
+  const [searchedTearm,setSerchedTearm]= useSemiPersistentState(
+   "",
+"searchedTearm"
+  );
+  
 
-  const handleSearchChange =(e:any) => {
-    setSearchTerm(e.target.value);
-    
-    
+  const searchHnadler =(e:any) => {
+    setSerchedTearm(e.target.value); 
   };
 
-  const filteredList:any =list.filter((item: any)  => 
-   item.title.includes(searchTerm) 
-  );
+  const filterdList:any =list.filter((item: any)  => {
+  return  item.title.includes(searchedTearm); 
+});
 
   return(
     <div className="container">
-    <h1>Hacker Stories</h1> 
-    <Search value={searchTerm} onChange={handleSearchChange}/>   
-<List stories={filteredList} />
+    <h1>{getTitle()}</h1> 
+
+    <InputWithLable
+    id="search"
+    value={searchedTearm}
+    onChange={searchHnadler}
+    >
+      <b> Search</b>
+      </InputWithLable>
+
+<List STories={filterdList} />
     </div>
     );
+  }
+  function getTitle(){
+    return "Hello React";
   }   
 
   export default App;
